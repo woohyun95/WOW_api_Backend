@@ -1,0 +1,54 @@
+extends layout
+
+block content
+    h1= title
+    p Welcome to #{title}
+    form#characterData
+        fieldset
+            legend 캐릭터 정보 가져오기 테스트
+            label character name
+            input(name='characterName' placeholder='characterName' value='젤리곰전사')
+            br
+            label server name
+            input(name='server' placeholder='server' value='azshara')
+            br
+            label region
+            select(name='region')
+                option(value = 'kr') Korea
+                option(value = 'us') North America
+                option(value = 'eu') Europe
+                option(value = 'tw') Taiwan
+                option(value = 'cn') China
+            br
+            button(onclick='getProgressData(event)') Get Dungeon Progress data
+            button(onclick='getCharData(event)') Get Gear Data
+
+
+
+    script.
+      function getData() {
+        console.log($('#characterData').serialize())
+      }
+
+      function getCharData(e) { // gear data
+        //console.log($('#characterData').serialize())
+        e.preventDefault()
+        axios
+          .post('/getCharacterData', $('#characterData').serialize())
+          .then(function (response) {
+              console.log(response)
+            }
+          )
+      }
+
+      function getProgressData(e) {
+        e.preventDefault()
+        axios
+          .post('/getProgressData', $('#characterData').serialize())
+          .then(function (response) {
+              console.log(response)
+            }
+          )
+      }
+
+
